@@ -1,4 +1,4 @@
-﻿# алькулятор с историей
+﻿# Калькулятор с историей
 
 ![Tests](https://github.com/darias03/-/actions/workflows/test-and-push.yml/badge.svg)
 
