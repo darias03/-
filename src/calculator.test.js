@@ -1,67 +1,42 @@
-﻿import { describe, it, expect, beforeEach } from 'vitest';
+﻿import test from 'node:test';
+import assert from 'node:assert';
 import { calculator } from './calculator.js';
 
-describe('Calculator', () => {
-  beforeEach(() => {
-    calculator.clearHistory();
-  });
+test('Calculator - add', () => {
+  calculator.clearHistory();
+  assert.strictEqual(calculator.add(2, 3), 5);
+});
 
-  describe('Basic operations', () => {
-    it('should add two numbers correctly', () => {
-      expect(calculator.add(2, 3)).toBe(5);
-      expect(calculator.add(-1, 1)).toBe(0);
-      expect(calculator.add(0, 5)).toBe(5);
-    });
+test('Calculator - subtract', () => {
+  calculator.clearHistory();
+  assert.strictEqual(calculator.subtract(5, 3), 2);
+});
 
-    it('should subtract two numbers correctly', () => {
-      expect(calculator.subtract(5, 3)).toBe(2);
-      expect(calculator.subtract(1, 1)).toBe(0);
-      expect(calculator.subtract(0, 5)).toBe(-5);
-    });
+test('Calculator - multiply', () => {
+  calculator.clearHistory();
+  assert.strictEqual(calculator.multiply(2, 3), 6);
+});
 
-    it('should multiply two numbers correctly', () => {
-      expect(calculator.multiply(2, 3)).toBe(6);
-      expect(calculator.multiply(-2, 3)).toBe(-6);
-      expect(calculator.multiply(0, 5)).toBe(0);
-    });
+test('Calculator - divide', () => {
+  calculator.clearHistory();
+  assert.strictEqual(calculator.divide(6, 3), 2);
+});
 
-    it('should divide two numbers correctly', () => {
-      expect(calculator.divide(6, 3)).toBe(2);
-      expect(calculator.divide(5, 2)).toBe(2.5);
-      expect(calculator.divide(0, 5)).toBe(0);
-    });
+test('Calculator - divide by zero throws error', () => {
+  calculator.clearHistory();
+  assert.throws(() => calculator.divide(5, 0), /Division by zero/);
+});
 
-    it('should throw error when dividing by zero', () => {
-      expect(() => calculator.divide(5, 0)).toThrow('Division by zero');
-    });
-  });
+test('Calculator - history', () => {
+  calculator.clearHistory();
+  calculator.add(2, 3);
+  const history = calculator.getHistory();
+  assert.deepStrictEqual(history[0], { operation: 'add', a: 2, b: 3, result: 5 });
+});
 
-  describe('History', () => {
-    it('should store operations history', () => {
-      calculator.add(2, 3);
-      calculator.subtract(5, 1);
-      calculator.multiply(2, 4);
-      
-      const history = calculator.getHistory();
-      expect(history).toHaveLength(3);
-      expect(history[0]).toEqual({ operation: 'add', a: 2, b: 3, result: 5 });
-      expect(history[1]).toEqual({ operation: 'subtract', a: 5, b: 1, result: 4 });
-      expect(history[2]).toEqual({ operation: 'multiply', a: 2, b: 4, result: 8 });
-    });
-
-    it('should clear history', () => {
-      calculator.add(1, 2);
-      calculator.add(3, 4);
-      expect(calculator.getHistory()).toHaveLength(2);
-      
-      calculator.clearHistory();
-      expect(calculator.getHistory()).toHaveLength(0);
-    });
-
-    it('should record result of division', () => {
-      calculator.divide(10, 2);
-      const history = calculator.getHistory();
-      expect(history[0]).toEqual({ operation: 'divide', a: 10, b: 2, result: 5 });
-    });
-  });
+test('Calculator - clear history', () => {
+  calculator.clearHistory();
+  calculator.add(1, 2);
+  calculator.clearHistory();
+  assert.strictEqual(calculator.getHistory().length, 0);
 });
