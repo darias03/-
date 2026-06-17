@@ -1,35 +1,50 @@
-﻿// еализуйте объект calculator с методами:
-// add, subtract, multiply, divide, getHistory, clearHistory
+﻿export const calculator = {
+  history: [],
 
-export const calculator = {
-  // TODO: обавьте свойство для хранения истории операций
-  
   add(a, b) {
-    // TODO: еализуйте сложение двух чисел
-    // 1. роверьте, что оба аргумента - числа
-    // 2. ычислите результат
-    // 3. Сохраните операцию в историю
-    // 4. ерните результат
+    if (typeof a !== 'number' || typeof b !== 'number') {
+      throw new Error('Arguments must be numbers');
+    }
+    const result = a + b;
+    this.history.push({ operation: 'add', a, b, result });
+    return result;
   },
 
   subtract(a, b) {
-    // TODO: еализуйте вычитание двух чисел
+    if (typeof a !== 'number' || typeof b !== 'number') {
+      throw new Error('Arguments must be numbers');
+    }
+    const result = a - b;
+    this.history.push({ operation: 'subtract', a, b, result });
+    return result;
   },
 
   multiply(a, b) {
-    // TODO: еализуйте умножение двух чисел
+    if (typeof a !== 'number' || typeof b !== 'number') {
+      throw new Error('Arguments must be numbers');
+    }
+    const result = a * b;
+    this.history.push({ operation: 'multiply', a, b, result });
+    return result;
   },
 
   divide(a, b) {
-    // TODO: еализуйте деление двух чисел
-    // е забудьте проверить деление на ноль!
+    if (typeof a !== 'number' || typeof b !== 'number') {
+      throw new Error('Arguments must be numbers');
+    }
+    if (b === 0) {
+      throw new Error('Division by zero');
+    }
+    const result = a / b;
+    this.history.push({ operation: 'divide', a, b, result });
+    return result;
   },
 
   getHistory() {
-    // TODO: ерните копию истории операций
+    return [...this.history];
   },
 
   clearHistory() {
-    // TODO: чистите историю операций
+    this.history = [];
   }
 };
